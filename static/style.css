@@ -1,0 +1,319 @@
+/* Основные стили */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container-fluid {
+    background-color: rgba(255, 255, 255, 0.95);
+    min-height: 100vh;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    font-weight: 600;
+}
+
+h1.display-4 {
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.lead {
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+/* Карточки */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+    background: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-radius: 15px 15px 0 0 !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Кнопки */
+.btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn-success {
+    background: linear-gradient(to right, #00b09b, #96c93d);
+}
+
+.btn-danger {
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+}
+
+.btn-warning {
+    background: linear-gradient(to right, #f7971e, #ffd200);
+    color: #000;
+}
+
+.btn-info {
+    background: linear-gradient(to right, #4A00E0, #8E2DE2);
+    color: white;
+}
+
+/* Поля ввода */
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Бейджи */
+.badge {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* Хештеги */
+.hashtags-container {
+    margin-top: 10px;
+}
+
+.hashtag-item {
+    padding: 10px 15px;
+    margin: 8px 0;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.hashtag-item:hover {
+    transform: translateX(5px);
+}
+
+.hashtag-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hashtag-rank {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.hashtag-name {
+    font-size: 1rem;
+}
+
+.hashtag-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+    margin-top: 5px;
+}
+
+/* Посты */
+.post-item {
+    padding: 15px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #007bff;
+    transition: all 0.3s ease;
+}
+
+.post-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.post-user {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.post-platform {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    background: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.post-content {
+    margin: 8px 0;
+    color: #333;
+    line-height: 1.4;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 10px;
+}
+
+.post-hashtag {
+    color: #007bff;
+    font-weight: 500;
+}
+
+.post-time {
+    font-style: italic;
+}
+
+.post-likes {
+    color: #e74c3c;
+}
+
+/* Статистика */
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.stat-label {
+    font-weight: 500;
+    color: #555;
+}
+
+.stat-value {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Результат Bloom Filter */
+#bloomResult {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.bloom-true {
+    background: linear-gradient(135deg, #81FBB8 0%, #28C76F 100%);
+    color: #000;
+    border: 2px solid #28C76F;
+}
+
+.bloom-false {
+    background: linear-gradient(135deg, #FEB692 0%, #EA5455 100%);
+    color: #000;
+    border: 2px solid #EA5455;
+}
+
+.bloom-fp {
+    background: linear-gradient(135deg, #FFE985 0%, #FA742B 100%);
+    color: #000;
+    border: 2px solid #FA742B;
+}
+
+/* Графики */
+canvas {
+    max-height: 250px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 10px;
+    }
+    
+    .btn {
+        margin-bottom: 5px;
+        width: 100%;
+    }
+    
+    .btn-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card {
+        margin-bottom: 15px;
+    }
+    
+    .hashtag-item, .post-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .post-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+
+/* Уведомления */
+.alert {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Подвал */
+footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+footer p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}

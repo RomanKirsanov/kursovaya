@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вероятностные Алгоритмы - Панель управления</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Заголовок -->
+        <header class="text-center my-4">
+            <h1 class="display-4">🎯 Панель управления вероятностными алгоритмами</h1>
+            <p class="lead">Демонстрация Bloom Filter, HyperLogLog и Count-Min Sketch в реальном времени</p>
+        </header>
+
+        <!-- Панель управления -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4>⚙️ Панель управления</h4>
+            </div>
+            <div class="card-body">
+                <div class="btn-group" role="group">
+                    <button id="startBtn" class="btn btn-success">▶ Запустить симуляцию</button>
+                    <button id="stopBtn" class="btn btn-danger">⏹ Остановить</button>
+                    <button id="resetBtn" class="btn btn-warning">🔄 Сбросить</button>
+                    <button id="testBtn" class="btn btn-info">🧪 Протестировать алгоритмы</button>
+                </div>
+                
+                <div class="mt-3">
+                    <div class="input-group" style="max-width: 300px;">
+                        <input type="text" id="userInput" class="form-control" placeholder="Введите имя пользователя">
+                        <button id="checkBtn" class="btn btn-outline-primary">Проверить Bloom Filter</button>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <span id="status" class="badge bg-secondary">Остановлено</span>
+                    <span class="ms-3">Постов: <span id="postCount">0</span></span>
+                    <span class="ms-3">Время: <span id="currentTime">00:00:00</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основная панель -->
+        <div class="row">
+            <!-- Левая колонка: Графики -->
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">📈 Уникальные пользователи (HyperLogLog)</div>
+                            <div class="card-body">
+                                <canvas id="usersChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">🔥 Популярные хештеги (Count-Min Sketch)</div>
+                            <div class="card-body">
+                                <div id="hashtagsList"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">📊 Посты по времени</div>
+                            <div class="card-body">
+                                <canvas id="postsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">🎯 Точность алгоритмов</div>
+                            <div class="card-body">
+                                <canvas id="accuracyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Статистика и информация -->
+            <div class="col-md-4">
+                <!-- Статистика алгоритмов -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h5>📊 Статистика алгоритмов</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="algorithmStats"></div>
+                    </div>
+                </div>
+
+                <!-- Последние посты -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>🕒 Последние посты</h5>
+                    </div>
+                    <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                        <div id="recentPosts"></div>
+                    </div>
+                </div>
+
+                <!-- Тест Bloom Filter -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>🎯 Тест Bloom Filter</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="bloomResult"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Информация об алгоритмах -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5>🌼 Bloom Filter</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Назначение:</strong> Проверка наличия элемента в множестве</p>
+                        <p><strong>Память:</strong> Очень мало (КБ)</p>
+                        <p><strong>Точность:</strong> ~99% (настраивается)</p>
+                        <p><strong>Использование:</strong> Отслеживание онлайн-пользователей</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5>📈 HyperLogLog</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Назначение:</strong> Подсчет уникальных элементов</p>
+                        <p><strong>Память:</strong> Чрезвычайно мало (КБ)</p>
+                        <p><strong>Точность:</strong> ~98%</p>
+                        <p><strong>Использование:</strong> Подсчет уникальных посетителей</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5>📊 Count-Min Sketch</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Назначение:</strong> Оценка частоты элементов</p>
+                        <p><strong>Память:</strong> Мало (КБ)</p>
+                        <p><strong>Точность:</strong> ~97%</p>
+                        <p><strong>Использование:</strong> Поиск популярных тем</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Подвал -->
+        <footer class="text-center mt-4 py-3 text-muted">
+            <p>Панель управления вероятностными алгоритмами &copy; 2024 | 
+                <small>Bloom Filter | HyperLogLog | Count-Min Sketch</small>
+            </p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
