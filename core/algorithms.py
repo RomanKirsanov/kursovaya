@@ -99,41 +99,59 @@ class HyperLogLog:
 class CountMinSketch:
     """Count-Min Sketch для оценки частоты элементов"""
     
-    def __init__(self, width: int = 500, depth: int = 4):
+    def __init__(self, width: int, depth: int):
         self.width = width
         self.depth = depth
-        self.sketch = [[0] * width for _ in range(depth)]
-        self.seeds = [random.randint(0, 10000) for _ in range(depth)]
+        self.table = [[0] * width for _ in range(depth)]
+        self._total_count = 0  # Счетчик фактических добавлений
     
     def _hash(self, item: str, seed: int) -> int:
-        return (mmh3.hash(item, seed) % self.width + self.width) % self.width
+        """Хэш-функция"""
+        hash_val = mmh3.hash(item, seed) & 0xffffffff
+        return hash_val % self.width
     
-    def add(self, item: str, count: int = 1) -> None:
-        item = str(item)
+    def add(self, item: str, count: int = 1):
+        """Добавить элемент"""
         for i in range(self.depth):
-            idx = self._hash(item, self.seeds[i])
-            self.sketch[i][idx] += count
+            index = self._hash(item, i)
+            self.table[i][index] += count
+        self._total_count += count  # Учитываем только реальное количество
     
     def estimate(self, item: str) -> int:
-        item = str(item)
-        return min(self.sketch[i][self._hash(item, self.seeds[i])] 
-                  for i in range(self.depth))
+        """Оценить частоту элемента"""
+        min_count = float('inf')
+        for i in range(self.depth):
+            index = self._hash(item, i)
+            min_count = min(min_count, self.table[i][index])
+        return int(min_count)
     
-    def top_items(self, n: int = 10, candidates: List[str] = None) -> List[Dict]:
-        if not candidates:
-            return []
+    def top_items(self, k: int, candidates: list[str]) -> list[dict[str, any]]:
+        """Найти k наиболее частых элементов"""
+        items = []
+        for item in candidates:
+            count = self.estimate(item)
+            if count > 0:
+                items.append({"item": item, "count": count})
         
-        items = [(item, self.estimate(item)) for item in candidates]
-        items.sort(key=lambda x: x[1], reverse=True)
-        
-        return [{'item': item, 'count': count} 
-                for item, count in items[:n]]
+        items.sort(key=lambda x: x["count"], reverse=True)
+        return items[:k]
     
-    def stats(self) -> Dict:
-        total = sum(sum(row) for row in self.sketch)
+    def stats(self) -> dict[str, any]:
+        """Статистика Count-Min Sketch"""
+        filled_cells = 0
+        for row in self.table:
+            for cell in row:
+                if cell > 0:
+                    filled_cells += 1
+        
+        total_cells = self.width * self.depth
+        
         return {
-            'width': self.width,
-            'depth': self.depth,
-            'total_count': total,
-            'memory_kb': self.width * self.depth * 4 / 1024
+            "width": self.width,
+            "depth": self.depth,
+            "total_cells": total_cells,
+            "filled_cells": filled_cells,
+            "fill_percentage": round((filled_cells / total_cells) * 100, 2) if total_cells > 0 else 0,
+            "total_count": self._total_count,  
+            "memory_kb": (total_cells * 8) / 1024  
         }
