@@ -29,7 +29,7 @@ Git 2.30+
 
 Microsoft Visual C++ Build Tools (для mmh3) 
 
-Требования к браузеру: 
+### Требования к браузеру: 
 
 Поддержка JavaScript ES6+ 
 
